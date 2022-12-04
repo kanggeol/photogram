@@ -5,27 +5,28 @@ server:
     encoding:
       charset: utf-8
       enabled: true
-    
+
 spring:
   mvc:
     view:
       prefix: /WEB-INF/views/
       suffix: .jsp
-      
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/photogram?serverTimezone=Asia/Seoul
     username: root
     password: kanggeol00
-    
+
   jpa:
     open-in-view: true
     hibernate:
       ddl-auto: update
+
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
-      
+
   servlet:
     multipart:
       enabled: true
@@ -34,7 +35,7 @@ spring:
   security:
     user:
       name: test
-      password: 1234   
+      password: 1234
 
 file:
   path: /Users/study/photogram/upload/
