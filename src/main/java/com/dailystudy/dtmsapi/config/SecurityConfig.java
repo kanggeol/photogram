@@ -6,6 +6,7 @@ import com.dailystudy.dtmsapi.security.JwtFilter;
 import com.dailystudy.dtmsapi.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -14,6 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
+@Configuration
 @RequiredArgsConstructor
 //SpringSecurity 5.4 이하 일때 WebSecurityConfigurerAdapter, 5.5 이상일때는 SecurityFilterChain을 사용해야 함(람다식)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -56,9 +58,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/*/login", "/*/join").permitAll()
-                .anyRequest().hasAnyRole("ADMIN", "USER")
+                .antMatchers("/","/user/**").authenticated()
+//                .anyRequest().hasAnyRole("ADMIN", "USER")
+                .anyRequest().permitAll() // 모든 요청 허용
+                .and()
+                .formLogin()
+                .loginPage("/auth/signin")
+                .defaultSuccessUrl("/");
 
+
+        /*
                 .and()
                 .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
                 .and()
@@ -66,6 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .addFilterBefore(new JwtFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class); // ID, Password 검사 전에 jwt 필터 먼저 수
+    */
     }
 
 //    @Override

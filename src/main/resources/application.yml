@@ -11,6 +11,11 @@ spring:
   devtools:
     add-properties: false
 
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+
 logging:
   dir: ./logs
 
