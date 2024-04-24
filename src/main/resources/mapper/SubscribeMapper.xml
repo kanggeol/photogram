@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dailystudy.dtmsapi.mapper.SubscribeMapper">
+
+    <insert id="subscribe" parameterType="Subscribe">
+        INSERT INTO subscribe (fromUserId, toUserId, createDate)
+        VALUES (#{fromUserId}, #{toUserId}, now())
+    </insert>
+
+    <delete id="unSubscribe" parameterType="Subscribe">
+        DELETE
+        FROM subscribe
+        WHERE fromUserId = #{fromUserId}
+          AND toUserId = #{toUserId}
+    </delete>
+
+</mapper>

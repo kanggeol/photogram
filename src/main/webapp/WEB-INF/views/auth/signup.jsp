@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +9,8 @@
     <title>Photogram</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -27,11 +28,22 @@
 
                     <!--회원가입 인풋-->
                     <form class="login__input" action="/auth/signup" method="post">
-                        <input type="text" name="username" placeholder="유저네임" required="required"  maxlength="30"/>
-                        <input type="password" name="password" placeholder="패스워드" required="required" />
-                        <input type="email" name="email" placeholder="이메일" required="required" />
-                        <input type="text" name="name" placeholder="이름" required="required" />
-                        <button>가입</button>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="username" placeholder="유저네임"
+                                   required="required" maxlength="30"/>
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" class="form-control" name="password" placeholder="패스워드"
+                                   required="required"/>
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" class="form-control" name="email" placeholder="이메일"
+                                   required="required"/>
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="name" placeholder="이름" required="required"/>
+                        </div>
+                        <button type="submit" class="btn btn-primary">가입</button>
                     </form>
                     <!--회원가입 인풋end-->
                 </div>
@@ -40,7 +52,7 @@
                 <!--계정이 있으신가요?-->
                 <div class="login__register">
                     <span>계정이 있으신가요?</span>
-                    <a href="/auth/signin">로그인</a>
+                    <a href="/auth/signin" class="btn btn-link">로그인</a>
                 </div>
                 <!--계정이 있으신가요?end-->
 
@@ -48,6 +60,7 @@
         </section>
     </main>
 </div>
+
 </body>
 
 </html>

@@ -1,13 +1,21 @@
 spring:
+  #  datasource:
+  #    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+  #    url: jdbc:log4jdbc:mysql://210.122.3.31:3306/new_center?serverTimezone=UTC&characterEncoding=EUC-KR&zeroDateTimeBehavior=convertToNull
+  #    username: root
+  #    password: devdbsuper2015!@#
+
+  #    driver-class-name: com.mysql.jdbc.Driver
+  #    url: jdbc:mysql://210.122.3.31:3306/new_center?serverTimezone=UTC&characterEncoding=EUC-KR&zeroDateTimeBehavior=convertToNull
+  #    username: rlvdms
+  #    password: todrkr122
+
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:mysql://210.122.3.31:3306/new_center?serverTimezone=UTC&characterEncoding=EUC-KR&zeroDateTimeBehavior=convertToNull
+    url: jdbc:log4jdbc:mysql://localhost:3306/photogram?serverTimezone=Asia/Seoul&useSSL=false
     username: root
-    password: devdbsuper2015!@#
-#    driver-class-name: com.mysql.jdbc.Driver
-#    url: jdbc:mysql://210.122.3.31:3306/new_center?serverTimezone=UTC&characterEncoding=EUC-KR&zeroDateTimeBehavior=convertToNull
-#    username: rlvdms
-#    password: todrkr122
+    password: kanggeol00
+
   devtools:
     add-properties: false
 
@@ -25,4 +33,12 @@ jwt:
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.dailystudy.dtmsapi.dto
+  type-aliases-package: com.dailystudy.dtmsapi.domain
+
+servet:
+  multipart:
+    enabled: true
+    max-file-size: 2MB
+
+file:
+  path: /Users/kanggeol/Downloads/

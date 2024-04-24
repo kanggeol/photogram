@@ -1,31 +1,57 @@
 package com.dailystudy.dtmsapi.service;
 
-import com.dailystudy.dtmsapi.dto.LoginDto;
-import com.dailystudy.dtmsapi.dto.UserDto;
-import com.dailystudy.dtmsapi.exception.LoginFailedException;
-import com.dailystudy.dtmsapi.exception.UserNotFoundException;
+import com.dailystudy.dtmsapi.domain.Profile;
+import com.dailystudy.dtmsapi.domain.User;
+import com.dailystudy.dtmsapi.exception.CustomValidationApiException;
 import com.dailystudy.dtmsapi.mapper.UserMapper;
-import com.dailystudy.dtmsapi.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class UserService {
-
     private final UserMapper userMapper;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final PasswordEncoder passwordEncoder;
 
-    public String login(LoginDto loginDto) {
-        UserDto userDto = userMapper.findByUser(loginDto.getId(), loginDto.getPassword())
-                .orElseThrow(() -> new LoginFailedException("일치하는 아이디가 없거나 비밀번호가 틀렸습니다."));
+    Logger log = LoggerFactory.getLogger(UserService.class);
 
-        return jwtTokenProvider.createToken(userDto.getUserId(), userDto.getRole());
+    @Transactional
+    public User updateUser(int id, User user) {
+        User userEntity = userMapper.selectUser(id)
+                .orElseThrow(() -> {
+                    return new CustomValidationApiException("찾을 수 없는 id입니다.");
+                });
+
+        userEntity.setName(user.getName());
+
+        String rawPassword = user.getPassword();
+        String encPassword = passwordEncoder.encode(rawPassword);
+
+        userEntity.setPassword(encPassword);
+        userEntity.setBio(user.getBio());
+        userEntity.setWebsite(user.getWebsite());
+        userEntity.setPhone(user.getPhone());
+        userEntity.setGender(user.getGender());
+//        log.info("userEntity: {}", userEntity);
+        userMapper.updateUser(userEntity); //마이바티스는 객체의 상태 변화를 감지하여 자동으로 데이터베이스에 변경을 반영하는 더티체킹을 지원 X
+        return userEntity;
     }
 
-    public UserDto findByUserId(String userId) {
-        return userMapper.findByUserId(userId)
-                .orElseThrow(() -> new UserNotFoundException("없는 유저입니다."));
-    }
 
+    public Profile profile(int pageUserId, int principalId) {
+        User userEntity = userMapper.selectUser(pageUserId)
+                .orElseThrow(() -> {
+                    return new CustomValidationApiException("해당 프로필 페이지는 없는 페이지입니다.");
+                });
+
+        Profile dto = new Profile();
+        dto.setUser(userEntity);
+        dto.setPageOwnerState(pageUserId == principalId);
+
+        return dto;
+    }
 }

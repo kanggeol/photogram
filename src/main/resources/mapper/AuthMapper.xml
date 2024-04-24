@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dailystudy.dtmsapi.mapper.AuthMapper">
+
+    <insert id="insertUser" parameterType="User">
+        INSERT INTO User (id, bio, createDate, email, gender, name, password, phone, profileImageUrl, role, username,
+                          website)
+        VALUES (#{id}, #{bio}, now(), #{email}, #{gender}, #{name}, #{password}, #{phone}, #{profileImageUrl},
+                #{role}, #{username}, #{website})
+    </insert>
+
+    <select id="selectUser" parameterType="String" resultType="User">
+        SELECT *
+        FROM User
+        WHERE username = #{username}
+    </select>
+
+</mapper>

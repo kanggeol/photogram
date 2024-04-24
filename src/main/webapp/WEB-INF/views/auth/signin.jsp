@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +9,9 @@
     <title>Photogram</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -25,14 +27,20 @@
 
                     <!--로그인 인풋-->
                     <form class="login__input" action="/auth/signin" method="POST">
-                        <input type="text" name="username" placeholder="유저네임" required="required" />
-                        <input type="password" name="password" placeholder="비밀번호" required="required" />
-                        <button>로그인</button>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="username" placeholder="유저네임"
+                                   required="required"/>
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" class="form-control" name="password" placeholder="비밀번호"
+                                   required="required"/>
+                        </div>
+                        <button type="submit" class="btn btn-primary">로그인</button>
                     </form>
                     <!--로그인 인풋end-->
 
                     <!-- 또는 -->
-                    <div class="login__horizon">
+                    <div class="login__horizon mb-3">
                         <div class="br"></div>
                         <div class="or">또는</div>
                         <div class="br"></div>
@@ -41,7 +49,8 @@
 
                     <!-- Oauth 소셜로그인 -->
                     <div class="login__facebook">
-                        <button onclick="javascript:location.href='/oauth2/authorization/facebook'">
+                        <button onclick="javascript:location.href='/oauth2/authorization/facebook'"
+                                class="btn btn-primary">
                             <i class="fab fa-facebook-square"></i>
                             <span>Facebook으로 로그인</span>
                         </button>
@@ -52,14 +61,14 @@
                 <!--계정이 없으신가요?-->
                 <div class="login__register">
                     <span>계정이 없으신가요?</span>
-                    <a href="/auth/signup">가입하기</a>
+                    <a href="/auth/signup" class="btn btn-link">가입하기</a>
                 </div>
                 <!--계정이 없으신가요?end-->
             </article>
         </section>
     </main>
-
 </div>
+
 </body>
 
 </html>
