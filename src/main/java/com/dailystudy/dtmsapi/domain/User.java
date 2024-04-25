@@ -1,5 +1,6 @@
 package com.dailystudy.dtmsapi.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ public class User {
     @NotBlank
     private String username;
     @NotBlank
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // 이 필드는 JSON으로 출력할 때만 사용되고, JSON으로부터의 입력은 무시됨
     private String password;
     @NotBlank
     private String email;
@@ -30,9 +32,6 @@ public class User {
     private String phone;
     private String profileImageUrl;
     private String website;
-    private List<Image> images;
+    private List<Image> images; // 1:N 관계, xml은 resultMap-collection 작성.
 
-    public void createDate() {
-        this.createDate = LocalDateTime.now();
-    }
 }

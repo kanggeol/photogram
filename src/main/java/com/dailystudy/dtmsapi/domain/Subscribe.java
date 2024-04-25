@@ -15,7 +15,4 @@ public class Subscribe {
     private User toUser;  //구독받는 사람
     private LocalDateTime createDate;
 
-    public void createDate() {
-        this.createDate = LocalDateTime.now();
-    }
 }

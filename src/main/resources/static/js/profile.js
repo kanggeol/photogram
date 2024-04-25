@@ -13,13 +13,13 @@
 // (1) 유저 프로파일 페이지 구독하기, 구독취소
 function toggleSubscribe(toUserId, obj) {
     if ($(obj).text() === "구독취소") {
-        $.ajax({
+        $.ajax({ //$.ajax().done().fail() 치고 첫괄호 {}, 두번째 res=>{}, 세번째 error=>{}
             type: "delete",
             url: "/api/subscribe/" + toUserId,
-            dataType: "json"
+            dataType: "json" //return 받을 타입
         }).done(res => {
             $(obj).text("구독하기");
-            $(obj).toggleClass("blue");
+            $(obj).toggleClass("blue"); //class "blue" 추가/삭제
         }).fail(error => {
             console.log("구독취소실패", error);
         });

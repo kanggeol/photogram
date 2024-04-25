@@ -20,7 +20,4 @@ public class Comment {
 
     private LocalDateTime createDate;
 
-    public void createDate() {
-        this.createDate = LocalDateTime.now();
-    }
 }

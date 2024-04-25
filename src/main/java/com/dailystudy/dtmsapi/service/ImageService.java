@@ -1,6 +1,7 @@
 package com.dailystudy.dtmsapi.service;
 
 import com.dailystudy.dtmsapi.config.auth.PrincipalDetails;
+import com.dailystudy.dtmsapi.domain.Image;
 import com.dailystudy.dtmsapi.domain.ImageUpload;
 import com.dailystudy.dtmsapi.mapper.ImageMapper;
 import lombok.RequiredArgsConstructor;
@@ -32,9 +33,20 @@ public class ImageService {
         Path imageFilePath = Paths.get(uploadFolder + imageFileName);
         //통신,I/O -> 예외가 발생할 수 있다
         try {
-            Files.write(imageFilePath, imageUpload.getFile().getBytes());
+            Files.write(imageFilePath, imageUpload.getFile().getBytes()); //이미지 업로드
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        //insert,update 할 때 Entity 작성해서 처리
+        Image imageEntity = new Image();
+        imageEntity.setUser(principalDetails.getUser());
+        imageEntity.setPostImageUrl(imageFileName);
+        imageEntity.setCaption(imageUpload.getCaption());
+
+//        log.info("imageEntity: {}", imageEntity);
+        imageMapper.saveImage(imageEntity); //User로 넘기고, xml에서는 user.id 로 value 입력
+        //저장한 내용 확인하려면 controller 에서 리턴값 받아서 처리하면 된다. Image imageEnttity = imageService.imageUpload()...
+
     }
 }

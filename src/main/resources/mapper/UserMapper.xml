@@ -8,6 +8,36 @@
         WHERE id = #{id}
     </select>
 
+    <select id="selectProfile" parameterType="int" resultMap="userWithImagesResultMap">
+        SELECT *
+        FROM User user
+                 LEFT JOIN Image I on user.id = I.userId
+        WHERE user.id = #{id}
+    </select>
+
+    <resultMap id="userWithImagesResultMap" type="User">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="email" column="email"/>
+        <result property="name" column="name"/>
+        <result property="role" column="role"/>
+        <result property="bio" column="bio"/>
+        <result property="createDate" column="createDate"/>
+        <result property="gender" column="gender"/>
+        <result property="phone" column="phone"/>
+        <result property="profileImageUrl" column="profileImageUrl"/>
+        <result property="website" column="website"/>
+        <collection property="images" ofType="Image">
+            <id property="id" column="image_id"/>
+            <result property="caption" column="caption"/>
+            <result property="postImageUrl" column="postImageUrl"/>
+            <result property="likeState" column="likeState"/>
+            <result property="likeCount" column="likeCount"/>
+            <result property="createDate" column="image_createDate"/>
+        </collection>
+    </resultMap>
+
+
     <update id="updateUser" parameterType="User">
         UPDATE User
         SET bio=#{bio},

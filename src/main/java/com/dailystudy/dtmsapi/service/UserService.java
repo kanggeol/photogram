@@ -2,7 +2,9 @@ package com.dailystudy.dtmsapi.service;
 
 import com.dailystudy.dtmsapi.domain.Profile;
 import com.dailystudy.dtmsapi.domain.User;
+import com.dailystudy.dtmsapi.exception.CustomException;
 import com.dailystudy.dtmsapi.exception.CustomValidationApiException;
+import com.dailystudy.dtmsapi.mapper.SubscribeMapper;
 import com.dailystudy.dtmsapi.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -11,11 +13,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final SubscribeMapper subscribeMapper;
 
     Logger log = LoggerFactory.getLogger(UserService.class);
 
@@ -43,15 +48,24 @@ public class UserService {
 
 
     public Profile profile(int pageUserId, int principalId) {
-        User userEntity = userMapper.selectUser(pageUserId)
+        Profile dto = new Profile();
+        User userEntity = userMapper.selectProfile(pageUserId)
                 .orElseThrow(() -> {
-                    return new CustomValidationApiException("해당 프로필 페이지는 없는 페이지입니다.");
+                    throw new CustomException("해당 프로필 페이지는 없는 페이지입니다.");
                 });
 
-        Profile dto = new Profile();
         dto.setUser(userEntity);
         dto.setPageOwnerState(pageUserId == principalId);
+        dto.setImageCount(userEntity.getImages().size());
 
+        int subscribeState = subscribeMapper.subscribeState(principalId, pageUserId);
+        int subscribeCount = subscribeMapper.subscribeCount(pageUserId);
+        dto.setSubscribeState(subscribeState == 1); //1과 같으면 true 반환
+        dto.setSubscribeCount(subscribeCount);
+
+//        userEntity.getImages().forEach((image -> image.setLikeCount(image.getLikes().size())));
+
+        log.info("userEntity:{}", dto);
         return dto;
     }
 }

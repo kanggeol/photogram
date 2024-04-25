@@ -16,7 +16,17 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(CustomValidationException.class) //Runtime오류 나는걸 전부 가로챈다
     //클라이언트에게 응답할 때는 자바스크립트 사용해서 alert 사용
     public String validationException(CustomValidationException e) {
-        return Script.back(e.getErrorMap().toString());
+        if (e.getErrorMap() == null) {
+            return Script.back(e.getMessage());
+        } else {
+            return Script.back(e.getErrorMap().toString());
+        }
+    }
+
+    @ExceptionHandler(CustomException.class) //CumstomException 걸리면 Exception 함수 실행
+    //클라이언트에게 응답할 때는 자바스크립트 사용해서 alert 사용
+    public String Exception(CustomException e) {
+        return Script.back(e.getMessage());
     }
 
     @ExceptionHandler(CustomValidationApiException.class) //Runtime오류 나는걸 전부 가로챈다

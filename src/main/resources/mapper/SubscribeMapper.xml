@@ -14,4 +14,16 @@
           AND toUserId = #{toUserId}
     </delete>
 
+    <select id="subscribeState" parameterType="Subscibe">
+        SELECT COUNT(*)
+        FROM Subscribe
+        WHERE fromUserId = #{principalId}
+          AND toUserId = #{pageUserId}
+    </select>
+
+    <select id="subscribeCount" parameterType="Subscibe">
+        SELECT COUNT(*)
+        FROM Subscribe
+        WHERE fromUserId = #{principalId}
+    </select>
 </mapper>

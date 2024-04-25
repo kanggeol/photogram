@@ -12,13 +12,10 @@ import java.time.LocalDateTime;
 public class Likes {
     private int id;
 
-    private Image image; // 1
+    private Image image;
 
-    private User user; // 1
+    private User user;
 
     private LocalDateTime createDate;
 
-    public void createDate() {
-        this.createDate = LocalDateTime.now();
-    }
 }

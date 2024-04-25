@@ -2,6 +2,7 @@ package com.dailystudy.dtmsapi.controller;
 
 import com.dailystudy.dtmsapi.config.auth.PrincipalDetails;
 import com.dailystudy.dtmsapi.domain.Profile;
+import com.dailystudy.dtmsapi.domain.User;
 import com.dailystudy.dtmsapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Controller

@@ -21,7 +21,4 @@ public class Image {
     private int likeCount;
     private LocalDateTime createDate;
 
-    public void createDate() {
-        this.createDate = LocalDateTime.now();
-    }
 }

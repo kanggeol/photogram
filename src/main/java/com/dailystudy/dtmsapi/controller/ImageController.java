@@ -2,6 +2,7 @@ package com.dailystudy.dtmsapi.controller;
 
 import com.dailystudy.dtmsapi.config.auth.PrincipalDetails;
 import com.dailystudy.dtmsapi.domain.ImageUpload;
+import com.dailystudy.dtmsapi.exception.CustomValidationException;
 import com.dailystudy.dtmsapi.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -33,6 +34,9 @@ public class ImageController {
 
     @PostMapping("/image")
     public String imageUpload(ImageUpload imageUpload, @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
+        if (imageUpload.getFile().isEmpty()) {
+            throw new CustomValidationException("이미지가 첨부되지 않았습니다.", null);
+        }
         imageService.imageUpload(imageUpload, principalDetails);
         return "redirect:/user/" + principalDetails.getUser().getId(); //이미지를 올리고 나면 이동할 페이지
     }
