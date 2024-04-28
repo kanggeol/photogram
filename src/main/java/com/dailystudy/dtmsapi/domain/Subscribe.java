@@ -14,5 +14,4 @@ public class Subscribe {
     private User fromUser; //구독하는 사람
     private User toUser;  //구독받는 사람
     private LocalDateTime createDate;
-
 }

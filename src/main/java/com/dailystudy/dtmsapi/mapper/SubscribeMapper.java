@@ -1,7 +1,9 @@
 package com.dailystudy.dtmsapi.mapper;
 
-import com.dailystudy.dtmsapi.domain.Subscribe;
+import com.dailystudy.dtmsapi.domain.SubscribeResponse;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 @Mapper
 public interface SubscribeMapper {
@@ -12,4 +14,6 @@ public interface SubscribeMapper {
     int subscribeState(int principalId, int pageUserId);
 
     int subscribeCount(int pageUserId);
+
+    List<SubscribeResponse> subscibeList(int principalId, int pageUserId);
 }

@@ -32,6 +32,6 @@ public class User {
     private String phone;
     private String profileImageUrl;
     private String website;
-    private List<Image> images; // 1:N 관계, xml은 resultMap-collection 작성.
+    private List<Image> images; // 1:N 관계, xml은 resultMap-collection 작성. property="images"
 
 }

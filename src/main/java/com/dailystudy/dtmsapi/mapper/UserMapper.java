@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Mapper
 public interface UserMapper {
-    int updateUser(User user);
+    int userUpdate(User user);
 
     //Optional은 주로 단일 객체나 null일 수 있는 객체를 감싸는 데 사용
     //단일 객체가 아니면 sevice단에서 orElseThrow 쓰지 못하고, try/catch 사용, 타입은 List<User>

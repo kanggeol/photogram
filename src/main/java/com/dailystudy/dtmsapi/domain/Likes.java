@@ -9,13 +9,19 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Likes {
+public class Likes { //N
     private int id;
 
-    private Image image;
+    private Image image; //1
 
-    private User user;
+    private User user; //1
 
     private LocalDateTime createDate;
+
+    private int imageId;
+
+    private int userId;
+
+    private boolean likeState;
 
 }

@@ -1,4 +1,4 @@
-package com.dailystudy.dtmsapi.domain.response;
+package com.dailystudy.dtmsapi.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,14 +1,12 @@
 package com.dailystudy.dtmsapi.exception;
 
-import com.dailystudy.dtmsapi.domain.response.CMResponse;
+import com.dailystudy.dtmsapi.dto.CMResponse;
 import com.dailystudy.dtmsapi.util.Script;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
 
 @RestController
 @ControllerAdvice

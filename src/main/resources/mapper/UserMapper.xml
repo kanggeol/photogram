@@ -9,7 +9,23 @@
     </select>
 
     <select id="selectProfile" parameterType="int" resultMap="userWithImagesResultMap">
-        SELECT *
+        SELECT user.id,
+               user.bio,
+               user.createDate,
+               user.email,
+               user.gender,
+               user.name,
+               user.password,
+               user.phone,
+               user.profileImageUrl,
+               user.role,
+               user.username,
+               user.website,
+               I.id         as imageId,
+               I.caption,
+               I.createDate as imageCreateDate,
+               I.postImageUrl,
+               I.userId
         FROM User user
                  LEFT JOIN Image I on user.id = I.userId
         WHERE user.id = #{id}
@@ -28,17 +44,15 @@
         <result property="profileImageUrl" column="profileImageUrl"/>
         <result property="website" column="website"/>
         <collection property="images" ofType="Image">
-            <id property="id" column="image_id"/>
+            <id property="id" column="imageId"/>
             <result property="caption" column="caption"/>
             <result property="postImageUrl" column="postImageUrl"/>
-            <result property="likeState" column="likeState"/>
-            <result property="likeCount" column="likeCount"/>
-            <result property="createDate" column="image_createDate"/>
+            <result property="createDate" column="imageCreateDate"/>
         </collection>
     </resultMap>
 
 
-    <update id="updateUser" parameterType="User">
+    <update id="userUpdate" parameterType="User">
         UPDATE User
         SET bio=#{bio},
             createDate=now(),

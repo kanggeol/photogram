@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dailystudy.dtmsapi.mapper.LikesMapper">
+
+    <insert id="like" parameterType="int">
+        INSERT INTO Likes (createDate, imageId, userId)
+        VALUES (now(), #{imageId}, #{principalId})
+    </insert>
+
+    <delete id="unlike">
+        DELETE
+        FROM Likes
+        WHERE imageId = #{imageId}
+          AND userId = #{principalId}
+    </delete>
+
+</mapper>

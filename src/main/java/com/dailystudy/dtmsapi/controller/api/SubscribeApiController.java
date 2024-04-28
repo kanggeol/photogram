@@ -1,7 +1,7 @@
 package com.dailystudy.dtmsapi.controller.api;
 
 import com.dailystudy.dtmsapi.config.auth.PrincipalDetails;
-import com.dailystudy.dtmsapi.domain.response.CMResponse;
+import com.dailystudy.dtmsapi.dto.CMResponse;
 import com.dailystudy.dtmsapi.service.SubscribeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

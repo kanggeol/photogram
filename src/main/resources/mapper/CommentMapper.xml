@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dailystudy.dtmsapi.mapper.CommentMapper">
+
+    <insert id="commentSave" parameterType="Comment" useGeneratedKeys="true"
+            keyProperty="id" keyColumn="id">
+        INSERT INTO Comment (content, createDate, imageId, userId)
+        VALUES (#{content}, now(), #{image.id}, #{user.id})
+    </insert>
+
+    <delete id="commentDelete">
+        DELETE
+        FROM Comment
+        WHERE id = #{id}
+    </delete>
+
+    <select id="commentInfo" parameterType="int" resultMap="CommentMap">
+        SELECT C.id         as comment_id,
+               C.content,
+               C.createDate as comment_createDate,
+               C.imageId    as comment_imagedId,
+               C.userId     as comment_userId,
+               I.id         as image_id,
+               I.caption,
+               I.createDate as image_createDate,
+               I.postImageUrl,
+               I.userId     as image_userId,
+               U.id         as user_id,
+               U.bio,
+               U.createDate as user_createDate,
+               U.email,
+               U.gender,
+               U.name,
+               U.password,
+               U.phone,
+               U.profileImageUrl,
+               U.role,
+               U.username,
+               U.website
+        FROM Comment C
+                 inner join Image I on C.imageId = I.id
+                 inner join User U on C.userId = U.id
+        WHERE C.id = #{id}
+    </select>
+
+    <resultMap id="CommentMap" type="Comment">
+        <id property="id" column="comment_id"/>
+        <result property="content" column="content"/>
+        <association property="image" javaType="Image">
+            <id property="id" column="image_id"></id>
+            <result property="caption" column="caption"></result>
+        </association>
+        <association property="user" javaType="User">
+            <id property="id" column="user_id"></id>
+            <result property="username" column="username"></result>
+        </association>
+    </resultMap>
+
+</mapper>

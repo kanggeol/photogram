@@ -3,27 +3,43 @@
 <mapper namespace="com.dailystudy.dtmsapi.mapper.SubscribeMapper">
 
     <insert id="subscribe" parameterType="Subscribe">
-        INSERT INTO subscribe (fromUserId, toUserId, createDate)
+        INSERT INTO Subscribe (fromUserId, toUserId, createDate)
         VALUES (#{fromUserId}, #{toUserId}, now())
     </insert>
 
     <delete id="unSubscribe" parameterType="Subscribe">
         DELETE
-        FROM subscribe
+        FROM Subscribe
         WHERE fromUserId = #{fromUserId}
           AND toUserId = #{toUserId}
     </delete>
 
-    <select id="subscribeState" parameterType="Subscibe">
+    <select id="subscribeState" parameterType="Subscribe" resultType="int">
         SELECT COUNT(*)
         FROM Subscribe
         WHERE fromUserId = #{principalId}
           AND toUserId = #{pageUserId}
     </select>
 
-    <select id="subscribeCount" parameterType="Subscibe">
+    <select id="subscribeCount" parameterType="Subscribe" resultType="int">
         SELECT COUNT(*)
         FROM Subscribe
         WHERE fromUserId = #{principalId}
+    </select>
+
+    <select id="subscibeList" parameterType="SubscribeResponse" resultType="SubscribeResponse">
+        SELECT u.id as                                  userId,
+               u.username,
+               u.profileImageUrl,
+               if((SELECT 1
+                   FROM Subscribe
+                   WHERE fromUserId = #{principalId}
+                     AND toUserId = u.id), 1, 0)        subscribeState,
+               if(
+                           #{principalId} = u.id, 1, 0) equalUserState
+        FROM User u
+                 INNER JOIN Subscribe S
+                            on u.id = S.toUserId
+        WHERE fromUserId = #{pageUserId}
     </select>
 </mapper>

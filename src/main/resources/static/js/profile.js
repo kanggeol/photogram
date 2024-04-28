@@ -69,9 +69,9 @@ function getSubscribeModalItem(u) {
 
     if (!u.equalUserState) { // 동일 유저가 아닐 때 버튼이 만들이 만들어져야함
         if (u.subscribeState) { // 구독한 상태
-            item += `<button class="cta blue" onclick="toggleSubscribe(${u.id}, this)">구독취소</button>`;
+            item += `<button class="cta blue" onclick="toggleSubscribe(${u.userId}, this)">구독취소</button>`;
         } else { // 구독안한 상태
-            item += `<button class="cta" onclick="toggleSubscribe(${u.id}, this)">구독하기</button>`;
+            item += `<button class="cta" onclick="toggleSubscribe(${u.userId}, this)">구독하기</button>`;
         }
     }
     item += `	
@@ -114,6 +114,7 @@ function profileImageUpload(pageUserId, principalId) {
             type: "put",
             url: `/api/user/${principalId}/profileImageUrl`,
             data: formData,
+            //사진을 전송하려면 아래값 false로 필수 입력해야함
             contentType: false, // 필수 : x-www-form-urlencoded로 파싱되는 것을 방지
             processData: false,  // 필수: contentType을 false로 줬을 때 QueryString 자동 설정됨. 해제
             enctype: "multipart/form-data",

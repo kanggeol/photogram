@@ -2,9 +2,120 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dailystudy.dtmsapi.mapper.ImageMapper">
 
-    <insert id="saveImage" parameterType="User">
+    <insert id="saveImage" parameterType="Image">
         INSERT INTO Image (caption, createDate, postImageUrl, userId)
         VALUES (#{caption}, now(), #{postImageUrl}, #{user.id})
     </insert>
 
+    <select id="imageLikes" parameterType="int" resultType="Likes">
+        SELECT *
+        FROM Likes
+        WHERE imageId = #{imageId}
+    </select>
+
+    <select id="imageComments" parameterType="int" resultMap="imageCommentsMap">
+        SELECT C.id    as comment_id,
+               content,
+               imageId as comment_imageId,
+               userId  as comment_userId,
+               U.id    as user_id,
+               username
+        FROM Comment C
+                 LEFT JOIN User U on C.userId = U.id
+        WHERE C.imageId = #{imageId}
+        ORDER BY C.id DESC
+    </select>
+
+    <resultMap id="imageCommentsMap" type="Comment">
+        <id property="id" column="comment_id"/>
+        <result property="content" column="content"/>
+        <association property="user" javaType="User">
+            <id property="id" column="user_id"></id>
+            <result property="username" column="username"></result>
+        </association>
+    </resultMap>
+
+    <select id="imageStory" parameterType="int" resultMap="imageResultMap">
+        SELECT i.id              as id,
+               i.caption         as caption,
+               i.postImageUrl    as postImageUrl,
+               i.createDate      as image_createDate,
+               u.id              as userId,
+               u.username        as username,
+               u.email           as email,
+               u.name            as name,
+               u.role            as role,
+               u.bio             as bio,
+               u.createDate      as createDate,
+               u.gender          as gender,
+               u.phone           as phone,
+               u.profileImageUrl as profileImageUrl,
+               u.website         as website
+        FROM Image i
+                 INNER JOIN User u ON i.userId = u.id
+        WHERE i.userId IN (SELECT toUserId FROM Subscribe WHERE fromUserId = #{principalId})
+        ORDER BY i.id DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <resultMap id="imageResultMap" type="Image">
+        <id property="id" column="id"/>
+        <result property="caption" column="caption"/>
+        <result property="postImageUrl" column="postImageUrl"/>
+        <result property="createDate" column="image_createDate"/>
+        <association property="user" javaType="User">
+            <id property="id" column="userId"></id>
+            <result property="username" column="username"></result>
+            <result property="email" column="email"></result>
+            <result property="name" column="name"></result>
+        </association>
+    </resultMap>
+
+
+    <select id="popular" parameterType="int" resultMap="imageWithUser">
+        SELECT i.id, i.caption, i.postImageUrl, u.id as userId, u.username as username
+        FROM Image i
+                 INNER JOIN (SELECT imageId, COUNT(imageId) likeCount
+                             FROM Likes
+                             GROUP BY imageId) temp ON i.id = temp.imageId
+                 INNER JOIN User U on i.userId = U.id
+        ORDER BY likeCount DESC
+    </select>
+
+    <resultMap id="imageWithUser" type="Image">
+        <id property="id" column="id"/>
+        <result property="caption" column="caption"/>
+        <result property="postImageUrl" column="postImageUrl"/>
+        <association property="user" javaType="User">
+            <id property="id" column="userId"></id>
+            <result property="username" column="username"></result>
+        </association>
+    </resultMap>
+
+    <select id="imageLikesCount" parameterType="int" resultMap="imageLikeCountMap">
+        SELECT I.id,
+               I.caption,
+               I.createDate,
+               I.postImageUrl,
+               I.userId,
+               L.id         as like_id,
+               L.createDate as like_createDate,
+               L.imageId    as like_imageId,
+               L.userId     as like_userId
+        FROM Image I
+                 LEFT JOIN Likes L on I.id = L.imageId
+        WHERE imageId = #{imageId}
+    </select>
+
+    <resultMap id="imageLikeCountMap" type="Image">
+        <id property="id" column="id"/>
+        <result property="caption" column="caption"/>
+        <result property="postImageUrl" column="postImageUrl"/>
+        <collection property="likes" ofType="Likes">
+            <id property="id" column="like_id"></id>
+            <result property="createDate" column="like_createDate"></result>
+            <result property="imageId" column="like_imageId"></result>
+            <result property="userId" column="like_userId"></result>
+        </collection>
+    </resultMap>
 </mapper>

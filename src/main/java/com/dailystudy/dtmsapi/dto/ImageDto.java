@@ -1,4 +1,4 @@
-package com.dailystudy.dtmsapi.domain;
+package com.dailystudy.dtmsapi.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ImageUpload {
+public class ImageDto {
     private MultipartFile file;
     private String caption;
 }

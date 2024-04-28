@@ -11,15 +11,15 @@
 let principalId = $("#principalId").val();
 
 // (1) 스토리 로드하기
-let page = 0;
+let page = 1;
 
 function storyLoad() {
-    $.ajax({
+    $.ajax({ //type 안넣으면 default get
         url: `/api/image?page=${page}`,
         dataType: "json"
     }).done(res => {
         //console.log(res);
-        res.data.content.forEach((image) => {
+        res.data.forEach((image) => {
             let storyItem = getStoryItem(image);
             $("#storyList").append(storyItem);
         });
@@ -70,18 +70,18 @@ function getStoryItem(image) {
 
     image.comments.forEach((comment) => {
         item += `<div class="sl__item__contents__comment" id="storyCommentItem-${comment.id}">
-				<p>
-					<b>${comment.user.username} :</b> ${comment.content}
-				</p>`;
+    			<p>
+    				<b>${comment.user.username} :</b> ${comment.content}
+    			</p>`;
 
         if (principalId == comment.user.id) {
             item += `	<button onclick="deleteComment(${comment.id})">
-										<i class="fas fa-times"></i>
-									</button>`;
+    									<i class="fas fa-times"></i>
+    								</button>`;
         }
 
-        item += `	
-			</div>`;
+        item += `
+    		</div>`;
 
     });
 
@@ -100,7 +100,7 @@ function getStoryItem(image) {
 }
 
 // (2) 스토리 스크롤 페이징하기
-$(window).scroll(() => {
+$(window).scroll(() => { //문서의 높이는 고정, 윈도우 사이즈는 가변적(사용자마다 다름) 문서의높이-윈도우높이=스크롤탑
     //console.log("윈도우 scrollTop", $(window).scrollTop());
     //console.log("문서의 높이", $(document).height());
     //console.log("윈도우 높이", $(window).height());
@@ -108,7 +108,7 @@ $(window).scroll(() => {
     let checkNum = $(window).scrollTop() - ($(document).height() - $(window).height());
     //console.log(checkNum);
 
-    if (checkNum < 1 && checkNum > -1) {
+    if (checkNum < 1 && checkNum > -1) { //-1 ~ 1 사이
         page++;
         storyLoad();
     }
@@ -191,6 +191,7 @@ function addComment(imageId) {
         //console.log("성공", res);
 
         let comment = res.data;
+        console.log(comment);
 
         let content = `
 		  <div class="sl__item__contents__comment" id="storyCommentItem-${comment.id}"> 

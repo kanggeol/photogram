@@ -17,7 +17,7 @@ public class WebMvcConfig implements WebMvcConfigurer { //web 설정파일
 
         registry
                 .addResourceHandler("/upload/**") //jsp페이지에서 /upload/** 패턴이면 아래 주소로 연결
-                .addResourceLocations("file:///" + uploadFolder)
+                .addResourceLocations("file://" + uploadFolder)
                 .setCachePeriod(60 * 10 * 6) //1시간
                 .resourceChain(true)
                 .addResolver(new PathResourceResolver());

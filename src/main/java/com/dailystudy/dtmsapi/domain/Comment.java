@@ -9,15 +9,17 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Comment {
+public class Comment {//N
     private int id;
 
     private String content;
 
-    private User user;
+    private User user;//1
 
-    private Image image;
+    private Image image;//1
 
     private LocalDateTime createDate;
 
+    private int imageId;
+    private int userId;
 }
