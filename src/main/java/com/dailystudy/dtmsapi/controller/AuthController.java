@@ -39,19 +39,11 @@ public class AuthController {
     @PostMapping("/signup")
     public String signup(@Valid User user, BindingResult bindingResult) {
 
-        if (bindingResult.hasErrors()) {
-            Map<String, String> errorMap = new HashMap<>();
-            for (FieldError error : bindingResult.getFieldErrors()) {
-                errorMap.put(error.getField(), error.getDefaultMessage());
-                System.out.println(error.getDefaultMessage());
-            }
-            throw new CustomValidationException("유효성 검사 실패함",errorMap); //String만 넘길수 있어서 error.getDefaultMessage()값을 넘기기 위해 CustomValidationException 생성
-        } else {
-            //        log.info(signup.toString());
+
+        //        log.info(signup.toString());
 //        log.info(user.getUsername());
 //        authService.selectUser(user.getUsername());
-            authService.insertUser(user);
-            return "auth/signup";
-        }
+        authService.insertUser(user);
+        return "auth/signup";
     }
 }

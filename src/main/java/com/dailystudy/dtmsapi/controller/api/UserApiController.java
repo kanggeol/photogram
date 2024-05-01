@@ -33,19 +33,9 @@ public class UserApiController {
     //ajax를 써서 리턴받게 할때 RestController 사용
     @PutMapping("/api/user/{id}")
     public CMResponse<?> update(@PathVariable int id, @Valid User user, BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-
-        if (bindingResult.hasErrors()) {
-            Map<String, String> errorMap = new HashMap<>();
-            for (FieldError error : bindingResult.getFieldErrors()) {
-                errorMap.put(error.getField(), error.getDefaultMessage());
-                System.out.println(error.getDefaultMessage());
-            }
-            throw new CustomValidationApiException("유효성 검사 실패함", errorMap);
-        } else {
-            User userEntity = userService.userUpdate(id, user);
-            principalDetails.setUser(userEntity); //세션 정보 변경
-            return new CMResponse<>(1, "회원수정완료", userEntity);
-        }
+        User userEntity = userService.userUpdate(id, user);
+        principalDetails.setUser(userEntity); //세션 정보 변경
+        return new CMResponse<>(1, "회원수정완료", userEntity);
     }
 
     @GetMapping("/api/user/{pageUserId}/subscribe") //페이지 주인이 구독하는 모든 사람
